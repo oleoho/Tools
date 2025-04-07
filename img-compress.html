@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Free Online Image Compressor - Compress your images easily and quickly. SEO-optimized, fast, and responsive tool for image optimization.">
+  <title>Online Image Compressor Tool - Free & Fast</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', sans-serif; background: #f9fafb; color: #111; line-height: 1.6; }
+    header, footer { background: #1f2937; color: #fff; text-align: center; padding: 2rem 1rem; }
+    header h1 { font-size: 2.5rem; margin-bottom: 0.5rem; }
+    .container { max-width: 900px; margin: auto; padding: 2rem; }
+    .tool { background: #fff; border-radius: 1rem; box-shadow: 0 10px 25px rgba(0,0,0,0.05); padding: 2rem; margin-bottom: 2rem; }
+    .tool h2 { font-size: 1.8rem; margin-bottom: 1rem; }
+    input[type="file"], select, button { display: block; width: 100%; margin: 1rem 0; padding: 0.6rem; border: 1px solid #ccc; border-radius: 0.5rem; }
+    button { background: #2563eb; color: white; border: none; cursor: pointer; }
+    button:hover { background: #1d4ed8; }
+    .preview { margin-top: 1rem; }
+    .ads { background: #e5e7eb; padding: 1rem; text-align: center; border-radius: 0.75rem; margin: 2rem 0; font-weight: 600; color: #555; }
+    img { max-width: 100%; height: auto; display: block; margin-top: 1rem; border-radius: 0.5rem; }
+    .dropzone {
+      border: 2px dashed #2563eb;
+      padding: 2rem;
+      border-radius: 0.75rem;
+      text-align: center;
+      color: #2563eb;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .dropzone.dragover {
+      background-color: #e0f2fe;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Image Compressor</h1>
+    <p>Optimize your images for better performance & SEO</p>
+  </header>
+
+  <div class="container">
+    <!-- Ad Section (Top Placeholder) -->
+    <div class="ads">
+      🔸 Your Ad Could Be Here! Replace with AdSense when approved.
+    </div>
+
+    <div class="tool">
+      <h2>Compress Your Image</h2>
+
+      <div id="dropzone" class="dropzone">Drop image here or click to upload</div>
+      <input type="file" id="imageInput" accept="image/*" style="display: none;" />
+
+      <label for="quality">Compression Level:</label>
+      <select id="quality">
+        <option value="0.9">Low (High Quality)</option>
+        <option value="0.6">Medium</option>
+        <option value="0.3">High (Smaller Size)</option>
+      </select>
+      <button onclick="compressImage()">Compress Image</button>
+      <div id="preview" class="preview"></div>
+    </div>
+
+    <!-- Ad Section (Bottom Placeholder) -->
+    <div class="ads">
+      🔸 This space is reserved for advertisements.
+    </div>
+  </div>
+
+  <footer>
+    <p>&copy; 2025 ImageCompressorTool.com. All rights reserved.</p>
+  </footer>
+
+  <script>
+    const dropzone = document.getElementById('dropzone');
+    const imageInput = document.getElementById('imageInput');
+
+    dropzone.addEventListener('click', () => imageInput.click());
+
+    dropzone.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      dropzone.classList.add('dragover');
+    });
+
+    dropzone.addEventListener('dragleave', () => dropzone.classList.remove('dragover'));
+
+    dropzone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      dropzone.classList.remove('dragover');
+      imageInput.files = e.dataTransfer.files;
+    });
+
+    function compressImage() {
+      const quality = parseFloat(document.getElementById('quality').value);
+      const preview = document.getElementById('preview');
+      const file = imageInput.files[0];
+      if (!file) return alert('Please upload an image');
+
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = function(event) {
+        const img = new Image();
+        img.src = event.target.result;
+        img.onload = function() {
+          const canvas = document.createElement('canvas');
+          const ctx = canvas.getContext('2d');
+          canvas.width = img.width;
+          canvas.height = img.height;
+          ctx.drawImage(img, 0, 0);
+          canvas.toBlob(function(blob) {
+            const newImg = document.createElement('img');
+            newImg.src = URL.createObjectURL(blob);
+            const downloadLink = document.createElement('a');
+            downloadLink.href = newImg.src;
+            downloadLink.download = 'compressed-image.jpg';
+            downloadLink.innerText = 'Download Compressed Image';
+            downloadLink.style.display = 'block';
+            downloadLink.style.marginTop = '1rem';
+            preview.innerHTML = '';
+            preview.appendChild(newImg);
+            preview.appendChild(downloadLink);
+          }, 'image/jpeg', quality);
+        }
+      }
+    }
+  </script>
+</body>
+</html>
+

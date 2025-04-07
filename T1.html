@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Compress images, convert PDFs, remove backgrounds, convert text to speech, generate QR codes and more AI-powered tools. Free, fast and online." />
+  <title>Ultimate AI Tools Hub</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', sans-serif; background: #f9fafb; color: #111; }
+    header, footer { background: #1f2937; color: #fff; text-align: center; padding: 2rem 1rem; }
+    header h1 { font-size: 2.8rem; margin-bottom: 0.5rem; }
+    .container { max-width: 1200px; margin: auto; padding: 2rem; }
+    section { margin-top: 4rem; background: #fff; border-radius: 1rem; padding: 2rem; box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
+    h2 { margin-bottom: 1rem; font-size: 1.5rem; }
+    input[type="file"], input[type="text"], textarea, button {
+      margin: 1rem 0;
+      display: block;
+      width: 100%;
+      font-size: 1rem;
+      padding: 0.75rem;
+      border: 1px solid #ccc;
+      border-radius: 0.5rem;
+    }
+    button {
+      background: #2563eb;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover { background: #1d4ed8; }
+    #pdf-result a {
+      display: inline-block;
+      margin-top: 1rem;
+      color: #2563eb;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Ultimate AI ToolBox</h1>
+    <p>Compress, Convert, Enhance & More — All Powered by AI</p>
+  </header>
+
+  <div class="container">
+    <!-- PDF Compressor -->
+    <section id="pdf-compressor">
+      <h2>PDF Compressor</h2>
+      <input type="file" id="pdf-input" accept="application/pdf" />
+      <div id="pdf-result"></div>
+    </section>
+
+    <!-- Text Summarizer -->
+    <section id="text-summarizer">
+      <h2>Text Summarizer</h2>
+      <textarea id="input-text" rows="6" placeholder="Paste your text here..."></textarea>
+      <button onclick="summarizeText()">Summarize</button>
+      <div id="summary-result" style="margin-top: 1rem;"></div>
+    </section>
+
+    <!-- QR Code Generator -->
+    <section id="qr-generator">
+      <h2>QR Code Generator</h2>
+      <input type="text" id="qr-input" placeholder="Enter text or URL" />
+      <button onclick="generateQR()">Generate QR Code</button>
+      <div id="qr-result" style="margin-top: 1rem;"></div>
+    </section>
+
+    <!-- Text to Speech -->
+    <section id="text-to-speech">
+      <h2>Text to Speech</h2>
+      <textarea id="tts-input" rows="4" placeholder="Type text here..."></textarea>
+      <button onclick="speakText()">Speak</button>
+    </section>
+  </div>
+
+  <footer>
+    <p>&copy; 2025 Ultimate AI ToolBox. All rights reserved.</p>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+  <script>
+    // PDF Compressor (simulated download link)
+    document.getElementById('pdf-input').addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      if (!file || file.type !== 'application/pdf') return;
+      const url = URL.createObjectURL(file);
+      document.getElementById('pdf-result').innerHTML = 
+        \`<a href="\${url}" download="compressed.pdf">Download Compressed PDF (Simulated)</a>\`;
+    });
+
+    // Text Summarizer
+    function summarizeText() {
+      const input = document.getElementById('input-text').value;
+      if (!input.trim()) return;
+      const summary = input.split('.').slice(0, 2).join('.') + '.';
+      document.getElementById('summary-result').innerText = summary;
+    }
+
+    // QR Code Generator
+    function generateQR() {
+      const qr = new QRious({
+        element: document.createElement('canvas'),
+        value: document.getElementById('qr-input').value,
+        size: 200
+      });
+      const resultDiv = document.getElementById('qr-result');
+      resultDiv.innerHTML = '';
+      resultDiv.appendChild(qr.element);
+    }
+
+    // Text to Speech
+    function speakText() {
+      const text = document.getElementById('tts-input').value;
+      if (!text.trim()) return;
+      const utterance = new SpeechSynthesisUtterance(text);
+      speechSynthesis.speak(utterance);
+    }
+  </script>
+</body>
+</html>
